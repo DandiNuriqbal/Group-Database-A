@@ -1,0 +1,637 @@
+--- Database Group Project
+--- E-commerce RDMS
+
+---Create tables from ER including entities and attributes
+
+CREATE TABLE customer (
+    customer_id VARCHAR(15) PRIMARY KEY,
+    first_name VARCHAR(15),
+    last_name VARCHAR(15),
+    email VARCHAR(20),
+    address VARCHAR(35),
+    city VARCHAR(15),
+    state VARCHAR(15),
+    country VARCHAR(2),
+    zip_code VARCHAR(15),
+    phone_number VARCHAR(15)
+);
+
+CREATE TABLE promotion (
+    product_id VARCHAR(15) PRIMARY KEY,
+    campaign_code VARCHAR(20),
+    end_date DATE,
+    discount_percentage DECIMAL(5,2)
+);
+
+CREATE TABLE membership (
+    membership_id VARCHAR(15) PRIMARY KEY,
+    customer_id VARCHAR(15),
+    expiration_date DATE,
+    type VARCHAR(15),
+    status VARCHAR(15)
+);
+
+CREATE TABLE payment (
+    payment_id VARCHAR(15) PRIMARY KEY,
+    payment_date DATE,
+    payment_method VARCHAR(15),
+    amount DECIMAL(10,2),
+    customer_id VARCHAR(15)
+);
+
+CREATE TABLE cart (
+    cart_id VARCHAR(15) PRIMARY KEY,
+    quantity INT,
+    created_time DATE,
+    customer_id VARCHAR(15)
+);
+
+CREATE TABLE product (
+    product_id VARCHAR(15) PRIMARY KEY,
+    description VARCHAR(70),
+    unit_price DECIMAL(10,2),
+    category_id VARCHAR(15)
+);
+
+CREATE TABLE [order] (
+    order_id VARCHAR(15) PRIMARY KEY,
+    order_date DATE,
+    order_status VARCHAR(15),
+    total_price DECIMAL(10,2),
+    payment_id VARCHAR(15),
+    customer_id VARCHAR(15)
+);
+
+CREATE TABLE category (
+    category_id VARCHAR(15) PRIMARY KEY,
+    category VARCHAR(25)
+);
+
+CREATE TABLE order_item (
+    order_item_id VARCHAR(15) PRIMARY KEY,
+    quantity INT,
+    subtotal_price DECIMAL(10,2),
+    order_id VARCHAR(15),
+    product_id VARCHAR(15),
+    customer_id VARCHAR(15)
+);
+
+CREATE TABLE cashback (
+    cashback_id VARCHAR(15),
+    cashback_amount DECIMAL(5,2),
+    order_id VARCHAR(15),
+    customer_id VARCHAR(15)
+);
+
+
+----Adding values into all tables
+
+INSERT INTO customer (customer_id, first_name, last_name, email, address, city, state, country, zip_code, phone_number)
+VALUES
+('C00000001', 'Emma', 'Smith', 'emma@gmail.com', '123 Main St', 'London', 'England', 'UK', 'SW 1A 1AA', '3671716840'),
+('C00000002', 'Noah', 'Thompson', 'noah@gmail.com', '456 High St', 'Manchester', 'England', 'UK', 'M1 1AA', '2124237734'),
+('C00000003', 'Olivia', 'Johnson', 'olivia@gmail.com', '789 Park Ave', 'Birmingham', 'England', 'UK', 'B1 1AA', '2124256932'),
+('C00000004', 'Liam', 'White', 'liam@gmail.com', '102 Oxford Rd', 'Bristol', 'England','UK', 'BS1 1AA', '9515678925'),
+('C00000005', 'Sophia', 'Williams', 'sophia@gmail.com', '222 Regent St', 'Leeds', 'England','UK', 'LS1 1AA', '4282651568'),
+('C00000006', 'Mason', 'Lopez', 'mason@gmail.com', '12 Kings Rd', 'Liverpool', 'England', 'UK', 'L1 1AA', '8136295038'),
+('C00000007', 'Jacob', 'Lee', 'jacob@gmail.com', '444 Queen St', 'Newcastle', 'England', 'UK', 'NE1 1AA', '8368458120'),
+('C00000008', 'Ava', 'Brown', 'ava@gmail.com', '555 Victoria Ave', 'Glasgow', 'Scotland', 'UK', 'G1 1AA', '4134449280'),
+('C00000009', 'William', 'Gonzales', 'william@gmail.com', '666 George St', 'Cardiff', 'Wales', 'UK', 'CF1 1AA', '7819956192'),
+('C00000010', 'Ethan', 'Harris', 'ethan@gmail.com', '777 High St', 'Belfast', 'North Ire', 'UK', 'BT1 1AA', '5089025510'),
+('C00000011', 'Isabella', 'Jones', 'isabella@gmail.com', '888 Main St', 'Edinburgh', 'Scotland', 'UK', 'EH1 1AA', '5086886461'),
+('C00000012', 'James', 'Clark', 'james@gmail.com', '234 Elm St', 'London', 'England', 'UK', 'SW1A 1AB', '4318693807'),
+('C00000013', 'Mia', 'Miller', 'mia@gmail.com', '567 Oak St', 'Manchester', 'England', 'UK', 'M1 1AB', '8401686970'),
+('C00000014', 'Abigail', 'Davis', 'abigail@gmail.com', '890 Maple Ave', 'Birmingham', 'England', 'UK', 'B1 1AB', '9140180811'),
+('C00000015', 'Emily', 'Garcia', 'emily@gmail.com', '89 Oxford Rd', 'Bristol', 'England', 'UK', 'BS1 1AA', '5564157930'),
+('C00000016', 'Alexander', 'Lewis', 'alexander@gmail.com', '222 Cedar St', 'Leeds', 'England', 'UK', 'LS1 1AB', '7608827015'),
+('C00000017', 'Michel', 'Robinson', 'michel@gmail.com','5 Kings Rd', 'Liverpool', 'England', 'UK', 'L1 1AA', '9142381020'),
+('C00000018', 'Charlotte', 'Rodriguez', 'charlotte@gmail.com', '444 Willow St', 'Newcastle', 'England', 'UK', 'NE1 1AB', '9148236406'),
+('C00000019', 'Benjamin', 'Walker', 'benjamin@gmail.com', '555 Spruce Ave', 'Glasgow', 'England', 'UK', 'G1 1AB', '9272966436'),
+('C00000020', 'Elijah', 'Perez', 'elijah@gmail.com', '666 Fir St', 'Cardiff', 'Wales', 'UK', 'CF1 1AB', '8861763524'),
+('C00000021', 'Harper', 'Wilson', 'harper@gmail.com', '777 Sycamore Rd', 'Belfast', 'North Ire', 'UK', 'BT1 1AB', '8943841832'),
+('C00000022', 'Madison', 'Martinez', 'madison@gmail.com', '888 Poplar St', 'Edinburgh', 'Scottland', 'UK', 'EH1 1AB', '2120938170'),
+('C00000023', 'Daniel', 'Hall', 'daniel@gmail.com', '345 Walnut St', 'London', 'England', 'UK', 'SW1A 1AC', '2128038384'),
+('C00000024', 'Amelia', 'Anderson', 'amelia@gmail.com', '678 Pineapple Rd', 'Manchester', 'England', 'UK', 'M1 1AC', '3026814855'),
+('C00000025', 'Elizabeth', 'Taylor', 'elizabeth@gmail.com', '901 Orange Ave', 'Birmingham', 'England', 'UK', 'B1 1AC', '1842769486'),
+('C00000026', 'Sofia', 'Thomas', 'sofia@gmail.com', '45 Banana St', 'Bristol', 'England', 'UK', 'BS1 1AC', '6603907055'),
+('C00000027', 'Evelyn', 'Hernandez', 'evelyn@gmail.com', '234 Grape Rd', 'Leeds', 'England', 'UK', 'LS1 1AC', '4077456584'),
+('C00000028', 'Aiden', 'Young', 'aiden@gmail.com', '101 Oxford Rd', 'Bristol', 'England', 'UK', 'BS1 1AA', '2127516276'),
+('C00000029', 'Avery', 'Moore', 'avery@gmail.com', '456 Mango St', 'Newcastle', 'England', 'UK', 'NE1 1AC', '9966917268'),
+('C00000030', 'Chloe', 'Martin', 'chloe@gmail.com', '567 Peach Ave', 'Glasgow', 'Scotland', 'UK', 'G1 1AC', '2559655392'),
+('C00000031', 'Logan', 'Allen', 'logan@gmail.com', '6 Pear Rd', 'Cardiff', 'Wales', 'UK', 'CF1 1AC', '4529352140'),
+('C00000032', 'Matthew', 'Sanchez', 'matthew@gmail.com', '789 Plum St', 'Belfast', 'North Ire', 'UK', 'BT1 1AC', '2147285200'),
+('C00000033', 'Ella', 'Jackson', 'ella@gmail.com', '890 Kiwi Ave', 'Edinburgh', 'Scotland', 'UK', 'EH1 1AC', '7697803102'),
+('C00000034', 'Grace', 'Thompson', 'grace@gmail.com', '901 Cherry Blossom St', 'London', 'England', 'UK', 'SW1A 1AD', '5308565348'),
+('C00000035', 'Lucas', 'Wright', 'lucas@gmail.com', '123 Apple Pie Rd', 'Manchester', 'England', 'UK', 'M1 1AD', '8540558899'),
+('C00000036', 'Victoria', 'White', 'victoria@gmail.com', '234 Blueberry St', 'Birmingham', 'England', 'UK', 'B1 1AD', '9769659681'),
+('C00000037', 'Jackson', 'King', 'jackson@gmail.com', '345 Cherry Pie Ave', 'Bristol', 'England', 'UK', 'BS1 1AD', '9188469875'),
+('C00000038', 'Aubrey', 'Lopez', 'aubrey@gmail.com', '456 Strawberry Rd', 'Leeds', 'England', 'UK', 'LS1 1AD', '7764641839'),
+('C00000039', 'David', 'Scott', 'david@gmail.com', '567 Raspberry Ave', 'Liverpool', 'England', 'UK', 'L1 1AD', '2323531692'),
+('C00000040', 'Oliver', 'Green', 'oliver@gmail.com', '678 Blackberry St', 'Newcastle', 'England', 'UK', 'NE1 1AD', '3344070626'),
+('C00000041', 'Jayden', 'Baker', 'jayden@gmail.com', '789 Cranberry Rd', 'Glasgow', 'Scotland', 'UK', 'G1 1AD', '5852096726'),
+('C00000042', 'Scarlett', 'Lee', 'scarlett@gmail.com', '333 Kings Rd', 'Liverpool', 'England', 'UK', 'L1 1AA', '1844185826'),
+('C00000043', 'Joseph', 'Adams', 'joseph@gmail.com', '901 Watermelon St', 'Belfast', 'North Ire', 'UK', 'BT1 1AD', '7869244329'),
+('C00000044', 'Zoey', 'Gonzales', 'zoey@gmail.com', '123 Lemon Ave', 'Edinburgh', 'Scotland', 'UK', 'EH1 1AD', '1295670397'),
+('C00000045', 'Gabriel', 'Nelson', 'gabriel@gmail.com', '234 Lime St', 'London', 'England', 'UK', 'SW1A 1AE', '9144061227'),
+('C00000046', 'Samuel', 'Hill', 'samuel@gmail.com', '345 Orange Rd', 'Manchester', 'England', 'UK', 'M1 1AE', '6279644534'),
+('C00000047', 'Addison', 'Harris', 'addison@gmail.com', '456 Banana Ave', 'Birmingham', 'England', 'UK', 'B1 1AE', '4921034485'),
+('C00000048', 'Lily', 'Clark', 'lily@gmail.com', '567 Mango Rd', 'Bristol', 'England', 'UK', 'BS1 1AE', '8743047236'),
+('C00000049', 'Lilian', 'Lewis', 'lilian@gmail.com', '678 Pineapple St', 'Leeds', 'England', 'UK', 'LS1 1AE', '1937541578'),
+('C00000050', 'Carter', 'Ramirez', 'carter@gmail.com', '789 Kiwi Rd', 'Liverpool', 'England', 'UK', 'L1 1AE', '5942678218')
+;
+SELECT * FROM customer;
+
+
+INSERT INTO promotion (product_id, campaign_code, end_date, discount_percentage)
+VALUES
+('PD1001', 'CHRISTMAS50', '2024-12-25', 0.5),
+('PD2002', 'VALENTINESDAY15', '2024-02-14', 0.15),
+('PD3010', 'SPRINGSALE25', '2024-04-15', 0.25),
+('PD4505', 'MEMORIALDAY30', '2024-05-03', 0.3),
+('PD5206', 'BLACKFRIDAY45', '2024-11-29', 0.45),
+('PD6103', 'HALLOWEEN35', '2024-10-31', 0.35),
+('PD7209', 'EASTER20', '2024-04-12', 0.2),
+('PD8304', 'BACKTOSCHOOL25', '2024-09-15', 0.25),
+('PD9108', 'LABORDAY30', '2024-09-03', 0.3),
+('PD10207', 'ANNIVERSARY15', '2024-02-09', 0.15),
+('PD11203', 'SUMMERSALE20', '2024-01-02', 0.2),
+('PD12204', 'WEEKEND25', '2024-08-15', 0.25),
+('PD13305', 'MIDWEEKSALE15', '2024-02-25', 0.15),
+('PD14406', 'NEWYEAR30', '2024-02-28', 0.3),
+('PD15507', 'INDEPENDENCEDAY20', '2025-01-01', 0.2), 
+('PD16608', 'FATHERSDAY20', '2024-06-16', 0.2),
+('PD17709', 'WINTERWARMER25', '2024-12-20', 0.25),
+('PD18810', 'THANKSGIVING40', '2024-11-28', 0.4),
+('PD19911', 'CYBERMONDAY35', '2024-02-12', 0.35),
+('PD20012', 'MOTHERSDAY25', '2024-12-05', 0.25),
+('PD21113', 'AUTUMNFALL30', '2024-11-30', 0.3),
+('PD22214', 'HOLIDAY25', '2024-12-31', 0.25),
+('PD23315', 'BOXINGDAY40', '2024-12-26', 0.3),
+('PD24416', 'EOFY25', '2024-06-30', 0.25),
+('PD25517', 'SPRINGCLEANING20', '2024-04-30', 0.2),
+('PD26618', 'SHOPLOCAL15', '2024-03-15', 0.15),
+('PD27719', 'BIRTHDAY10', '2024-10-02', 0.1),
+('PD28820', 'FLASHSALE50', '2024-10-03', 0.5),
+('PD29921', 'LASTMINUTE20', '2024-12-31', 0.2),
+('PD30022', 'WEEKEND25', '2024-02-25', 0.25),
+('PD31123', 'VALENTINESDAY15', '2024-02-14', 0.15),
+('PD32224', 'SPRINGCLEANING20', '2024-04-30', 0.2),
+('PD33325', 'HALLOWEEN35', '2024-10-31', 0.35),
+('PD34426', 'MEMORIALDAY30', '2024-05-30', 0.3),
+('PD35527', 'SUMMERSALE20', '2024-08-15', 0.2),
+('PD36628', 'BACKTOSCHOOL25', '2024-09-15', 0.25),
+('PD37729', 'MIDWEEKSALE15', '2024-02-28', 0.15),
+('PD38830', 'CHRISTMAS50', '2024-12-25', 0.5),
+('PD39931', 'EASTER20', '2024-12-04', 0.2),
+('PD40032', 'WEEKEND25', '2024-02-25', 0.25),
+('PD41133', 'CYBERMONDAY35', '2024-02-12', 0.35),
+('PD42234', 'AUTUMNFALL30', '2024-11-30', 0.3),
+('PD43335', 'ANNIVERSARY15', '2024-01-02', 0.15),
+('PD44436', 'NEWYEAR30', '2025-01-01', 0.3),
+('PD45537', 'BOXINGDAY40', '2024-12-26', 0.4),
+('PD46638', 'FLASHSALE50', '2024-10-03', 0.5),
+('PD47739', 'FATHERSDAY20', '2024-06-16', 0.2),
+('PD48840', 'THANKSGIVING40', '2024-11-28', 0.4),
+('PD499441', 'LABORDAY30', '2024-09-03', 0.3),
+('PD50042', 'SHOPLOCAL15', '2024-03-15', 0.15)
+;
+
+SELECT * FROM promotion;
+
+
+INSERT INTO payment (payment_id, payment_date, payment_method, amount, customer_id)
+VALUES
+('70331631', '2024-01-01', 'Google Pay', 70, 'C00000004'),
+('27457969', '2024-01-01', 'Apple Pay', 90, 'C00000042'),
+('54384810', '2024-01-01', 'Bank Transfer', 100, 'C00000039'),
+('22416811', '2024-01-02', 'Google Pay', 50, 'C00000039'),
+('58876856', '2024-01-03', 'Apple Pay', 40, 'C00000044'),
+('18324348', '2024-01-03', 'Google Pay', 110, 'C00000044'),
+('94569973', '2024-01-04', 'Bank Transfer', 60, 'C00000001'),
+('11407088', '2024-01-04', 'Apple Pay', 110, 'C00000041'),
+('12649653', '2024-01-04', 'Apple Pay', 20, 'C00000041'),
+('52627674', '2024-01-05', 'Bank Transfer', 80, 'C00000001'),
+('22433878', '2024-01-05', 'Google Pay', 100, 'C00000036'),
+('65081168', '2024-01-05', 'Google Pay', 30, 'C00000046'),
+('51085354', '2024-01-07', 'Google Pay', 80, 'C00000030'),
+('11339549', '2024-01-08', 'Apple Pay', 80, 'C00000030'),
+('44238387', '2024-01-09', 'Apple Pay', 70, 'C00000040'),
+('57192804', '2024-01-09', 'Apple Pay', 512.3, 'C00000040'),
+('87665226', '2024-01-09', 'Bank Transfer', 40, 'C00000045'),
+('46740377', '2024-01-09', 'Bank Transfer', 340.1, 'C00000045'),
+('93116027', '2024-01-09', 'Bank Transfer', 70, 'C00000042'),
+('98620718', '2024-01-10', 'Bank Transfer', 50, 'C00000042'),
+('77924328', '2024-01-10', 'Google Pay', 70, 'C00000024'),
+('79311917', '2024-01-11', 'Google Pay', 324.2, 'C00000037'),
+('50988756', '2024-01-12', 'Google Pay', 50, 'C00000041'),
+('86942660', '2024-01-14', 'Google Pay', 40, 'C00000041'),
+('10505512', '2024-01-15', 'Google Pay', 677.4, 'C00000037'),
+('70543009', '2024-01-15', 'Google Pay', 30, 'C00000037'),
+('48528436', '2024-01-15', 'Google Pay', 1183.2, 'C00000026'),
+('74913375', '2024-01-15', 'Bank Transfer', 30, 'C00000021'),
+('49335382', '2024-01-16', 'Bank Transfer', 50, 'C00000023'),
+('46095003', '2024-01-16', 'Bank Transfer', 60, 'C00000023'),
+('41035760', '2024-01-16', 'Bank Transfer', 110, 'C00000026'),
+('75999723', '2024-01-17', 'Bank Transfer', 60, 'C00000002'),
+('55571540', '2024-01-17', 'Bank Transfer', 30, 'C00000014'),
+('80641298', '2024-01-18', 'Apple Pay', 80, 'C00000014'),
+('86102458', '2024-01-19', 'Apple Pay', 20, 'C00000014'),
+('23301805', '2024-01-19', 'Apple Pay', 40, 'C00000022'),
+('90682441', '2024-01-19', 'Apple Pay', 1426.4, 'C00000002'),
+('38972030', '2024-01-21', 'Apple Pay', 90, 'C00000038'),
+('99394584', '2024-01-21', 'Apple Pay', 1385.1, 'C00000038'),
+('66428875', '2024-01-22', 'Google Pay', 1736.6, 'C00000038'),
+('38307034', '2024-01-22', 'Google Pay', 80, 'C00000040'),
+('79299619', '2024-01-23', 'Google Pay', 100, 'C00000024'),
+('15711202', '2024-01-23', 'Bank Transfer', 70, 'C00000024'),
+('13993712', '2024-01-23', 'Bank Transfer', 600, 'C00000024'),
+('78381920', '2024-01-23', 'Bank Transfer', 50, 'C00000013'),
+('84768714', '2024-01-23', 'Bank Transfer', 40, 'C00000024'),
+('15445017', '2024-01-23', 'Google Pay', 620, 'C00000024'),
+('74749519', '2024-01-23', 'Bank Transfer', 50, 'C00000013'),
+('80752798', '2024-01-24', 'Bank Transfer', 40,'C00000027'),
+('21717720', '2024-01-24', 'Bank Transfer', 50,'C00000021')
+;
+
+
+SELECT* FROM payment;
+
+
+
+INSERT INTO membership (membership_id, customer_id, expiration_date, type, status)
+VALUES
+('MD12001', 'C00000001', '2024-10-15', 'Gold', 'Active'),
+('MD12002', 'C00000002', '2024-09-20', 'Silver', 'Active'),
+('MD12003', 'C00000004', '2024-11-03', 'Bronze', 'Active'),
+('MD12004', 'C00000020', '2024-12-30', 'Platinum', 'Not Active'),
+('MD12005', 'C00000030', '2024-11-17', 'Gold', 'Active'),
+('MD12006', 'C00000017', '2024-02-05', 'Silver', 'Active'),
+('MD12007', 'C00000039', '2024-12-10', 'Bronze', 'Active'),
+('MD12008', 'C00000005', '2024-10-22', 'Platinum', 'Active'),
+('MD12009', 'C00000050', '2024-01-18', 'Gold', 'Active'),
+('MD12010', 'C00000045', '2024-03-14', 'Silver', 'Active'),
+('MD12011', 'C00000013', '2024-09-28', 'Bronze', 'Active'),
+('MD12012', 'C00000042', '2024-11-20', 'Platinum', 'Not Active'),
+('MD12013', 'C00000044', '2024-12-15', 'Silver', 'Active'),
+('MD12014', 'C00000022', '2024-10-08', 'Gold', 'Active'),
+('MD12015', 'C00000011', '2025-02-09', 'Bronze', 'Active'),
+('MD12016', 'C00000033', '2025-01-25', 'Silver', 'Active'),
+('MD12017', 'C00000048', '2025-03-02', 'Gold', 'Active'),
+('MD12018', 'C00000003', '2024-09-12', 'Platinum', 'Active'),
+('MD12019', 'C00000015', '2024-11-28', 'Silver', 'Active'),
+('MD12020', 'C00000028', '2024-12-05', 'Silver', 'Not Active'),
+('MD12021', 'C00000003', '2024-09-15', 'Gold', 'Active'),
+('MD12022', 'C00000009', '2024-11-20', 'Bronze', 'Active'),
+('MD12023', 'C00000047', '2025-01-03', 'Silver', 'Active'),
+('MD12024', 'C00000027', '2024-12-30', 'Platinum', 'Not Active'),
+('MD12025', 'C00000025', '2025-02-17', 'Gold', 'Active')
+;
+
+
+SELECT * FROM membership;
+
+
+
+INSERT INTO cart (cart_id, quantity, created_time, customer_id)
+VALUES
+('CA79784560', 1, '2024-01-01', 'C00000004'),
+('CA17752620', 2, '2024-01-01', 'C00000042'),
+('CA43901828', 3, '2024-01-01', 'C00000039'),
+('CA65785159', 4, '2024-01-02', 'C00000039'),
+('CA96703746', 5, '2024-01-03', 'C00000044'),
+('CA85956953', 6, '2024-01-03', 'C00000044'),
+('CA12937354', 7, '2024-01-04', 'C00000001'),
+('CA66956434', 8, '2024-01-04', 'C00000041'),
+('CA71955437', 9, '2024-01-04', 'C00000041'),
+('CA71534756', 10, '2024-01-05', 'C00000001'),
+('CA45557356', 1, '2024-01-05', 'C00000036'),
+('CA35082525', 2, '2024-01-05', 'C00000046'),
+('CA60796732', 3, '2024-01-07', 'C00000030'),
+('CA55031872', 4, '2024-01-07', 'C00000030'),
+('CA95923796', 5, '2024-01-08', 'C00000040'),
+('CA82209869', 6, '2024-01-09', 'C00000040'),
+('CA30435441', 7, '2024-01-09', 'C00000045'),
+('CA64413413', 8, '2024-01-09', 'C00000045'),
+('CA47460610', 9, '2024-01-09', 'C00000042'),
+('CA65630542', 10, '2024-01-09', 'C00000042'),
+('CA93055302', 1, '2024-01-10', 'C00000024'),
+('CA45465146', 2, '2024-01-10', 'C00000037'),
+('CA71370761', 3, '2024-01-11', 'C00000041'),
+('CA67412984', 4, '2024-01-12', 'C00000041'),
+('CA92326776', 5, '2024-01-14', 'C00000037'),
+('CA32839008', 6, '2024-01-15', 'C00000037'),
+('CA98014529', 7, '2024-01-15', 'C00000026'),
+('CA99904729', 8, '2024-01-15', 'C00000021'),
+('CA70937253', 9, '2024-01-15', 'C00000023'),
+('CA34641851', 10, '2024-01-16', 'C00000023'),
+('CA10916070', 1, '2024-01-16', 'C00000026'),
+('CA23351592', 2, '2024-01-16', 'C00000002'),
+('CA31231126', 3, '2024-01-17', 'C00000014'),
+('CA67556131', 4, '2024-01-17', 'C00000014'),
+('CA43564612', 5, '2024-01-18', 'C00000014'),
+('CA13044962', 6, '2024-01-19', 'C00000022'),
+('CA70154428', 7, '2024-01-19', 'C00000002'),
+('CA58560138', 8, '2024-01-19', 'C00000038'),
+('CA70068430', 9, '2024-01-21', 'C00000038'),
+('CA77134868', 10, '2024-01-21', 'C00000038'),
+('CA59148828', 1, '2024-01-22', 'C00000040'),
+('CA43594394', 2, '2024-01-22', 'C00000024'),
+('CA25858483', 3, '2024-01-23', 'C00000024'),
+('CA13493475', 4, '2024-01-23', 'C00000024'),
+('CA50728998', 5, '2024-01-23', 'C00000013'),
+('CA45154676', 6, '2024-01-23', 'C00000024'),
+('CA64419962', 7, '2024-01-23', 'C00000024'),
+('CA21638980', 8, '2024-01-23', 'C00000013'),
+('CA35840378', 9, '2024-01-24', 'C00000027'),
+('CA83669051', 10, '2024-01-24', 'C00000021');
+
+---DELETE FROM cart;
+
+SELECT* FROM cart;
+
+
+INSERT INTO product (product_id, description, unit_price, category_id)
+VALUES
+('PD1001', 'High-quality cotton t-shirt with a classic fit.', 5.67, 'CAT001'),
+('PD1002', 'Lightweight and durable aluminum water bottle.', 8.99, 'CAT002'),
+('PD1003', 'Soft and absorbent cotton bath towels.', 3.45, 'CAT002'),
+('PD1004', 'Stylish leather wallet with multiple compartments.', 12.75, 'CAT001'),
+('PD1005', 'Portable Bluetooth speaker with crystal-clear sound.', 6.88, 'CAT003'),
+('PD1006', 'Sleek and modern stainless steel kitchen utensil set.', 10.2, 'CAT002'),
+('PD1007', 'Cozy fleece blanket perfect for chilly nights.', 2.99, 'CAT002'),
+('PD1008', 'Professional-grade chef"s knife for precision cutting.', 15.5, 'CAT002'),
+('PD1009', 'Elegant ceramic coffee mug with a matte finish.', 4.25, 'CAT002'),
+('PD1010', 'Premium leather laptop bag with padded compartments.', 9.75, 'CAT003'),
+('PD1011', 'Vibrant and colorful set of acrylic paint tubes.', 11.33, 'CAT004'),
+('PD1012', 'Classic denim jeans with a relaxed fit.', 7.1, 'CAT001'),
+('PD1013', 'Adjustable nylon dog collar with secure buckle.', 6.25, 'CAT005'),
+('PD1014', 'Decorative throw pillow covers for sofa or bed.', 13.49, 'CAT002'),
+('PD1015', 'Ergonomic office chair with lumbar support.', 3.88, 'CAT002'),
+('PD1016', 'Compact and lightweight travel umbrella.', 17.6, 'CAT006'),
+('PD1017', 'Organic bamboo cutting board for kitchen prep.', 8.45, 'CAT002'),
+('PD1018', 'Reusable stainless steel drinking straws.', 5.99, 'CAT002'),
+('PD1019', 'Decorative glass vase for floral arrangements.', 14.2, 'CAT002'),
+('PD1020', 'All-natural soy wax candles with essential oils.', 6.75, 'CAT002'),
+('PD1021', 'Vintage-inspired pocket watch with chain.', 9.25, 'CAT001'),
+('PD1022', 'Non-stick silicone baking mats for easy cleanup.', 4.99, 'CAT002'),
+('PD1023', 'Rustic farmhouse-style picture frames.', 19.99, 'CAT002'),
+('PD1024', 'Premium leather journal with refillable pages.', 2.5, 'CAT002'),
+('PD1025', 'Set of scented bath bombs for a luxurious bath.', 16.85, 'CAT002'),
+('PD1026', 'Breathable mesh running shoes for active lifestyles.', 7.75, 'CAT007'),
+('PD1027', 'Stainless steel French press coffee maker.', 10.99, 'CAT002'),
+('PD1028', 'Soft and plush microfiber bathrobe for relaxation.', 5.35, 'CAT001'),
+('PD1029', 'Durable and weather-resistant hiking backpack.', 11.75, 'CAT006'),
+('PD1030', 'Handcrafted wooden serving tray for entertaining.', 3.99, 'CAT002'),
+('PD1031', 'Luxurious Egyptian cotton bed sheets.', 22.5, 'CAT002'),
+('PD1032', 'Multi-functional kitchen food processor.', 6.49, 'CAT002'),
+('PD1033', 'Classic aviator sunglasses with UV protection.', 8.25, 'CAT001'),
+('PD1034', 'Handmade ceramic dinnerware set for four.', 4.5, 'CAT002'),
+('PD1035', 'Cozy knit beanie hat for cold weather.', 13.75, 'CAT001'),
+('PD1036', 'Heavy-duty stainless steel mixing bowls.', 5.1, 'CAT002'),
+('PD1037', 'Sleek and modern touchscreen smartwatch.', 9.99, 'CAT002'),
+('PD1038', 'Portable power bank for charging devices on-the-go.', 3.25, 'CAT003'),
+('PD1039', 'Eco-friendly bamboo toothbrush set.', 18.2, 'CAT003'),
+('PD1040', 'Elegant pearl necklace with matching earrings.', 7.49, 'CAT002'),
+('PD1041', 'Reusable cotton grocery bags for sustainable shopping.', 12.25, 'CAT001'),
+('PD1042', 'Plush memory foam mattress topper for extra comfort.', 4.75, 'CAT002'),
+('PD1043', 'Lightweight and breathable workout leggings.', 10.45, 'CAT002'),
+('PD1044', 'Classic leather belt with a stylish buckle.', 6.99, 'CAT007'),
+('PD1045', 'Set of stainless steel measuring spoons.', 15.99, 'CAT001'),
+('PD1046', 'Traditional cast iron skillet for versatile cooking.', 2.75, 'CAT002'),
+('PD1047', 'Premium quality leather sandals for summer.', 14.75, 'CAT006'),
+('PD1048', 'Hand-woven cotton area rug for living room.', 6.15, 'CAT002'),
+('PD1049', 'Compact and portable camping stove.', 11.2, 'CAT007'),
+('PD1050', 'Adjustable dumbbell set for home workouts.', 8.75, 'CAT007');
+
+SELECT * FROM product
+
+
+INSERT INTO [order] (order_id, order_date, order_status, total_price, payment_id, customer_id)
+VALUES
+('50010937595', '2024-01-01', 'CONFIRMED', 34, '70331631', 'C00000004'),
+('50010937403', '2024-01-01', 'CONFIRMED', 146.6, '27457969', 'C00000042'),
+('50010938049', '2024-01-01', 'CONFIRMED', 82.13, '54384810', 'C00000039'),
+('50010938111', '2024-01-02', 'CONFIRMED', 60, '22416811', 'C00000039'),
+('50010937744', '2024-01-03', 'CONFIRMED', 40, '58876856', 'C00000044'),
+('50010937445', '2024-01-03', 'IN_TRANSIT', 110, '18324348', 'C00000044'),
+('50010938208', '2024-01-04', 'CONFIRMED', 60, '94569973', 'C00000001'),
+('50010938001', '2024-01-04', 'CONFIRMED', 168.15, '11407088', 'C00000041'),
+('50010937226', '2024-01-04', 'IN_TRANSIT', 20, '12649653', 'C00000041'),
+('50010937596', '2024-01-05', 'CONFIRMED', 80, '52627674', 'C00000001'),
+('50010937637', '2024-01-05', 'CONFIRMED', 100, '22433878', 'C00000036'),
+('50010937447', '2024-01-05', 'CONFIRMED', 195.74, '65081168', 'C00000046'),
+('50010937222', '2024-01-07', 'DELIVERED', 80, '51085354', 'C00000030'),
+('50010937275', '2024-01-07', 'CONFIRMED', 80,'11339549', 'C00000030'),
+('50010938235', '2024-01-08', 'CONFIRMED', 243.22,'44238387', 'C00000040'),
+('50010937925', '2024-01-09', 'CONFIRMED', 512.3,'57192804', 'C00000040'),
+('50010938062', '2024-01-09', 'CONFIRMED', 124,'87665226', 'C00000045'),
+('50010938034', '2024-01-09', 'CONFIRMED', 188.3,'46740377', 'C00000045'),
+('50010937469', '2024-01-09', 'CONFIRMED', 70,'93116027', 'C00000042'),
+('50010937752', '2024-01-09', 'CONFIRMED', 50,'98620718', 'C00000042'),
+('50010937312', '2024-01-10', 'CONFIRMED', 38.25,'77924328', 'C00000024'),
+('50010937629', '2024-01-10', 'CONFIRMED', 324.2,'79311917', 'C00000037'),
+('50010937225', '2024-01-11', 'IN_TRANSIT', 50,'50988756', 'C00000041'),
+('50010937626', '2024-01-12', 'IN_TRANSIT', 40,'86942660', 'C00000041'),
+('50010938269', '2024-01-14', 'CONFIRMED', 248.9,'10505512', 'C00000037'),
+('50010937806', '2024-01-15', 'CONFIRMED', 90,'70543009', 'C00000037'),
+('50010937388', '2024-01-15', 'IN_TRANSIT', 184.15,'48528436', 'C00000026'),
+('50010937361', '2024-01-15', 'CONFIRMED', 126.53,'74913375', 'C00000021'),
+('50010937823', '2024-01-15', 'CONFIRMED', 30,'49335382', 'C00000023'),
+('50010937314', '2024-01-16', 'CONFIRMED', 1183.2,'46095003', 'C00000023'),
+('50010932510', '2024-01-16', 'DELIVERED', 30,'41035760', 'C00000026'),
+('50010932645', '2024-01-16', 'DELIVERED', 50,'75999723', 'C00000002'),
+('50010933947', '2024-01-17', 'CONFIRMED', 207.68,'55571540', 'C00000014'),
+('50010935661', '2024-01-17', 'CONFIRMED', 110,'80641298', 'C00000014'),
+('50010933739', '2024-01-18', 'DELIVERED', 60,'86102458', 'C00000014'),
+('50010937055', '2024-01-19', 'CONFIRMED', 30,'23301805', 'C00000022'),
+('50010932490', '2024-01-19', 'IN_TRANSIT', 42.8,'90682441', 'C00000002'),
+('50010932543', '2024-01-19', 'DELIVERED', 59.31,'38972030', 'C00000038'),
+('50010932503', '2024-01-21', 'IN_TRANSIT', 40,'99394584', 'C00000038'),
+('50010937096', '2024-01-21', 'CONFIRMED', 1426.4,'66428875', 'C00000038'),
+('50010932612', '2024-01-22', 'DELIVERED', 90,'38307034', 'C00000040'),
+('50010933222', '2024-01-22', 'IN_TRANSIT', 1385.1,'79299619', 'C00000024'),
+('50010936442', '2024-01-23', 'CONFIRMED', 1736.6,'15711202', 'C00000024'),
+('50010935748', '2024-01-23', 'DELIVERED', 80,'13993712', 'C00000024'),
+('50010932531', '2024-01-23', 'DELIVERED', 260.45,'78381920', 'C00000013'),
+('50010932601', '2024-01-23', 'IN_TRANSIT', 70,'84768714', 'C00000024'),
+('50010934264', '2024-01-23', 'CONFIRMED', 600.7,'15445017', 'C00000024'),
+('50010937090', '2024-01-23', 'CONFIRMED', 50,'74749519', 'C00000013'),
+('50010935933', '2024-01-24', 'CONFIRMED', 124.48,'80752798', 'C00000027'),
+('50010934145', '2024-01-24', 'CONFIRMED', 620.7,'21717720', 'C00000021')
+;
+
+SELECT * FROM [order]
+
+-----
+
+INSERT INTO category (category_id, category)
+VALUES
+('CAT001', 'Apparel & Accessories'),
+('CAT002', 'Home & Kitchen'),
+('CAT003', 'Electronics'),
+('CAT004', 'Arts & Crafts'),
+('CAT005', 'Pets'),
+('CAT006', 'Travel & Outdoor'),
+('CAT007', 'Sports & Outdoors'),
+('CAT008', 'Baby & Kids'),
+('CAT009', 'Food & Beverages'),
+('CAT010', 'Beauty & Personal Care')
+;
+
+SELECT * FROM category
+
+-----
+
+
+INSERT INTO order_item (order_item_id, quantity, subtotal_price, order_id, product_id, customer_id)
+VALUES
+('OI1001', 1, 5.67, '50010937595', 'PD1001', 'C00000004'),
+('OI1002', 2, 17.98, '50010937403', 'PD1002', 'C00000004'),
+('OI1003', 3, 10.35, '50010938049', 'PD1003', 'C00000004'),
+('OI1004', 4, 51, '50010938111', 'PD1004', 'C00000042'),
+('OI1005', 5, 34.4, '50010937744', 'PD1005', 'C00000042'),
+('OI1006', 6, 61.2, '50010937445', 'PD1006', 'C00000039'),
+('OI1007', 7, 20.93, '50010938208', 'PD1007', 'C00000039'),
+('OI1008', 8, 124, '50010938001', 'PD1008', 'C00000045'),
+('OI1009', 9, 38.25, '50010937226', 'PD1009', 'C00000024'),
+('OI1010', 10, 97.5, '50010937596', 'PD1010', 'C00000046'),
+('OI1011', 1, 11.33, '50010937637', 'PD1011', 'C00000046'),
+('OI1012', 2, 14.2, '50010937447', 'PD1012', 'C00000046'),
+('OI1013', 3, 18.75, '50010937222', 'PD1013', 'C00000046'),
+('OI1014', 4, 53.96, '50010937275', 'PD1014', 'C00000046'),
+('OI1015', 5, 19.4, '50010938235', 'PD1015', 'C00000026'),
+('OI1016', 6, 105.6, '50010937925', 'PD1016', 'C00000026'),
+('OI1017', 7, 59.15, '50010938062', 'PD1017', 'C00000026'),
+('OI1018', 8, 47.92, '50010938034', 'PD1018', 'C00000040'),
+('OI1019', 9, 127.8, '50010937469', 'PD1019', 'C00000040'),
+('OI1020', 10, 67.5, '50010937752', 'PD1020', 'C00000040'),
+('OI1021', 1, 9.25, '50010937312', 'PD1021', 'C00000038'),
+('OI1022', 2, 9.98, '50010937629', 'PD1022', 'C00000038'),
+('OI1023', 3, 59.97, '50010937225', 'PD1023', 'C00000038'),
+('OI1024', 4, 10, '50010937626', 'PD1024', 'C00000038'),
+('OI1025', 5, 84.25, '50010938269', 'PD1025', 'C00000014'),
+('OI1026', 6, 46.5, '50010937806', 'PD1026', 'C00000014'),
+('OI1027', 7, 76.93, '50010937388', 'PD1027', 'C00000014'),
+('OI1028', 8, 42.8, '50010937361', 'PD1028', 'C00000002'),
+('OI1029', 9, 105.75, '50010937823', 'PD1029', 'C00000041'),
+('OI1030', 10, 39.9, '50010937314', 'PD1030', 'C00000041'),
+('OI1031', 1, 22.5, '50010932510', 'PD1031', 'C00000041'),
+('OI1032', 2, 12.98, '50010932645', 'PD1032', 'C00000027'),
+('OI1033', 3, 24.75, '50010933947', 'PD1033', 'C00000027'),
+('OI1034', 4, 18, '50010935661', 'PD1034', 'C00000027'),
+('OI1035', 5, 68.75, '50010933739', 'PD1035', 'C00000027'),
+('OI1036', 6, 30.6, '50010937055', 'PD1036', 'C00000021'),
+('OI1037', 7, 69.93, '50010932490', 'PD1037', 'C00000021'),
+('OI1038', 8, 26, '50010932543', 'PD1038', 'C00000021'),
+('OI1039', 9, 163.8, '50010932503', 'PD1039', 'C00000013'),
+('OI1040', 10, 74.9, '50010937096', 'PD1040', 'C00000013'),
+('OI1041', 1, 12.25, '50010932612', 'PD1041', 'C00000013'),
+('OI1042', 2, 9.5, '50010933222', 'PD1042', 'C00000013'),
+('OI1043', 3, 31.35, '50010936442', 'PD1043', 'C00000038'),
+('OI1044', 4, 27.96, '50010935748', 'PD1044', 'C00000038'),
+('OI1045', 5, 79.95, '50010932531', 'PD1045', 'C00000037'),
+('OI1046', 6, 16.5, '50010932601', 'PD1046', 'C00000037'),
+('OI1047', 7, 103.25, '50010934264', 'PD1047', 'C00000037'),
+('OI1048', 8, 49.2, '50010937090', 'PD1048', 'C00000037'),
+('OI1049', 9, 100.8, '50010935933', 'PD1049', 'C00000045'),
+('OI1050', 10, 87.5, '50010934145', 'PD1050', 'C00000045')
+;
+
+SELECT * FROM order_item
+
+---
+
+INSERT INTO cashback (cashback_id, cashback_amount, order_id, customer_id)
+VALUES
+('11985809992', 0.35, '50010937595', 'C00000004'),
+('83247164066', 0.45, '50010937403', 'C00000042'),
+('70419978303', 0.50, '50010938049', 'C00000039'),
+('70314202948', 0.30, '50010938111', 'C00000039'),
+('29958228542', 0.20, '50010937744', 'C00000044'),
+('71057313144', 0.55, '50010937445', 'C00000044'),
+('59577490732', 0.30, '50010938208', 'C00000001'),
+('59101934202', 0.55, '50010938001', 'C00000041'),
+('71155302540', 0.10, '50010937226', 'C00000041'),
+('21898199477', 0.40, '50010937596', 'C00000001'),
+('54582635183', 0.50, '50010937637', 'C00000036'),
+('41707104136', 0.15, '50010937447', 'C00000046'),
+('59595557744', 0.40, '50010937222', 'C00000030'),
+('16631354805', 0.40, '50010937275', 'C00000030'),
+('60825368972', 0.35, '50010938235', 'C00000040'),
+('53579902402', 2.56, '50010937925', 'C00000040'),
+('57014077280', 0.20, '50010938062', 'C00000045'),
+('84159507082', 1.70, '50010938034', 'C00000045'),
+('13284421189', 0.35, '50010937469', 'C00000042'),
+('97913642042', 0.25, '50010937752', 'C00000042'),
+('26782771183', 0.35, '50010937312', 'C00000024'),
+('67676011636', 1.62, '50010937629', 'C00000037'),
+('87696846562', 0.25, '50010937225', 'C00000041'),
+('48233441652', 0.20, '50010937626', 'C00000041'),
+('14936099072', 2.65, '50010938269', 'C00000037'),
+('52723177185', 0.45, '50010937806', 'C00000037'),
+('16855121281', 0.20, '50010937388', 'C00000026'),
+('68508191130', 3.39, '50010937361', 'C00000021'),
+('50106304069', 0.15, '50010937823', 'C00000023'),
+('34528326150', 5.92, '50010937314', 'C00000023'),
+('64115661679', 0.15, '50010932510', 'C00000026'),
+('10725390775', 0.25, '50010932645', 'C00000002'),
+('83628346492', 0.30, '50010933947', 'C00000014'),
+('74059125154', 0.55, '50010935661', 'C00000014'),
+('84651563470', 0.30, '50010933739', 'C00000014'),
+('48403570817', 0.15, '50010937055', 'C00000022'),
+('34486711006', 0.40, '50010932490', 'C00000002'),
+('42337382424', 0.10, '50010932543', 'C00000038'),
+('78500678556', 0.20, '50010932503', 'C00000038'),
+('31177215161', 7.13, '50010937096', 'C00000038'),
+('94066898703', 0.45, '50010932612', 'C00000040'),
+('80773132725', 6.93, '50010933222', 'C00000024'),
+('49663875773', 8.68, '50010936442', 'C00000024'),
+('37418328712', 0.40, '50010935748', 'C00000024'),
+('95336480981', 0.55, '50010932531', 'C00000013'),
+('11628521547', 0.35, '50010932601', 'C00000024'),
+('61107145991', 3.00, '50010934264', 'C00000024'),
+('88415896499', 0.24, '50010937090', 'C00000013'),
+('83036622031', 0.20, '50010935933', 'C00000027'),
+('83036622032', 0.40, '50010934145', 'C00000021')
+;
+
+SELECT * from cashback
+
+---Adding Foreign Key Constraints
+
+ALTER TABLE product
+ADD CONSTRAINT FK_CATEGORY_ID_PRODUCT_CATEGORY FOREIGN KEY (category_id) REFERENCES category (category_id);
+
+ALTER TABLE order_item
+ADD CONSTRAINT FK_ORDER_ID_ORDER_ITEM_ORDER FOREIGN KEY (order_id) REFERENCES [order] (order_id);
+
+ALTER TABLE order_item
+ADD CONSTRAINT FK_PRODUCT_ID_ORDER_ITEM_PRODUCT FOREIGN KEY (product_id) REFERENCES product (product_id);
+
+ALTER TABLE membership
+ADD CONSTRAINT FK_CUSTOMER_ID_MEMBERSHIP_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (customer_id);
+
+ALTER TABLE cashback
+ADD CONSTRAINT FK_CUSTOMER_ID_CASHBACK_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (customer_id);
+
+ALTER TABLE cashback
+ADD CONSTRAINT FK_ORDER_ID_CASHBACK_ORDER FOREIGN KEY (order_id) REFERENCES [order] (order_id);
+
+ALTER TABLE [order]
+ADD CONSTRAINT FK_CUSTOMER_ID_ORDER1_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (customer_id);
+
+ALTER TABLE [order]
+ADD CONSTRAINT FK_PAYMENT_ID_ORDER1_PAYMENT FOREIGN KEY (payment_id) REFERENCES payment (payment_id);
+
+ALTER TABLE payment
+ADD CONSTRAINT FK_CUSTOMER_ID_PAYMENT_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (customer_id);
+
+ALTER TABLE cart
+ADD CONSTRAINT FK_CUSTOMER_ID_CART_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (customer_id);
+
+
+------
+
+DROP TABLE IF EXISTS campaign;
+
+SELECT * FROM campaign
